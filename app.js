@@ -1,24 +1,21 @@
-// Access jsPDF
-const { jsPDF } = window.jspdf;
-
-// When the user clicks "Generate PDF"
-document.getElementById("generatePdf").onclick = () => {
-  const form = document.getElementById("resumeForm");
-  const data = new FormData(form);
-  
+document.getElementById("generatePdf").addEventListener("click", function () {
+  const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
-  let y = 20; // Y position to start writing text
 
-  // Write each form field into the PDF
-  for (let [key, value] of data.entries()) {
-    doc.text(`${capitalize(key)}: ${value}`, 10, y);
-    y += 10;
-  }
+  // Get form values manually
+  const fullName = document.querySelector('input[name="fullName"]').value;
+  const email = document.querySelector('input[name="email"]').value;
+  const phone = document.querySelector('input[name="phone"]').value;
+  const education = document.querySelector('input[name="education"]').value;
+  const experience = document.querySelector('input[name="experience"]').value;
 
-  doc.save("resume.pdf"); // Download the generated PDF
-};
+  // Add content to PDF
+  doc.text(`Full Name: ${fullName}`, 10, 20);
+  doc.text(`Email: ${email}`, 10, 30);
+  doc.text(`Phone: ${phone}`, 10, 40);
+  doc.text(`Education: ${education}`, 10, 50);
+  doc.text(`Experience: ${experience}`, 10, 60);
 
-// Helper function to capitalize field names
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+  // Save the PDF
+  doc.save("resume.pdf");
+});
